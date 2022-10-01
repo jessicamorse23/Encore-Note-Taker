@@ -1,5 +1,3 @@
-// const api = require("express").Router();
-// const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const db = require("../db/db.json");
@@ -19,7 +17,7 @@ module.exports = (app) => {
 
   // API POST request
   app.post("/api/notes", (req, res) => {
-    let allNotes = [];
+    let activeNotes = [];
     let newNote = {
       title: req.body.title,
       text: req.body.text,
@@ -27,9 +25,9 @@ module.exports = (app) => {
     };
     fs.readFile(path.join(__dirname, "../db/db.json"), (err, data) => {
       if (err) throw err;
-      allNotes = JSON.parse(data);
-      allNotes.push(newNote);
-      fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(allNotes), "utf-8", (err) => {
+      activeNotes = JSON.parse(data);
+      activeNotes.push(newNote);
+      fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(activeNotes), "utf-8", (err) => {
         if (err) throw err;
         console.log("The note has been saved.");
         res.end();
@@ -47,7 +45,7 @@ module.exports = (app) => {
       const filteredNotes = notesDB.filter((values) => values.id != noteId);
       fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(filteredNotes), "utf-8", (err) => {
         if (err) throw err;
-        console.log("The note has been deleted.");
+        console.log("Your note is deleted.");
         res.end();
       });
     });
