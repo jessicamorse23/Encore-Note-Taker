@@ -1,9 +1,8 @@
-// const htmlRoute = require("express").Router();
 const path = require("path");
 
 //route to notes.html 
 module.exports = (app) => {
-    app.get("/notes", function (req, res) {
+    app.get("/notes", (req, res) => {
         res.sendFile(path.join(__dirname, "../public", "notes.html"));
     });
 
